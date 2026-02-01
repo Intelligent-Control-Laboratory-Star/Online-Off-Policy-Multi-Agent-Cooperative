@@ -1,4 +1,4 @@
-%% Run Simulink model 10 times and export 6 signals to 6 Excel files
+%% Run Simulink model 10 times and export 7 signals to 7 Excel files
 
 clear; clc;
 warning('off','all')
@@ -169,3 +169,4 @@ function [t, Y] = localGetSignal_ToWorkspace(out, name)
         end
     end
 end
+
