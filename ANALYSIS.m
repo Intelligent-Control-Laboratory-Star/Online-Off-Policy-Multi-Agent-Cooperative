@@ -118,7 +118,7 @@ end
 %% ====== Export the results to a table /Excel (optional) ======
 % Out = table(t, mu, v, sd, n, ciLo, ciHi, ...
 %     'VariableNames', {'time_s','mean','variance','std','n','ci_low','ci_high'});
-% 假设你已有 t, Y(=N×5), mu, ciLo, ciHi
+% Suppose you already have t, Y(=N×5), mu, ciLo, ciHi
 % ciHalf = (ciHi - ciLo)/2;
 % 
 % Out = table(t, Y(:,1), Y(:,2), Y(:,3), Y(:,4), Y(:,5), Y(:,6), Y(:,7), Y(:,8), Y(:,9), Y(:,10), mu, ciLo, ciHi, ciHalf, ...
@@ -126,5 +126,6 @@ end
 % 
 % writetable(Out, 'A.ADET_origin_plot_data_triggerFix_RF_Triggering.xlsx');
 
-% 写回Excel
+% Write back to Excel
 % writetable(Out, 'time_stats.xlsx');
+
