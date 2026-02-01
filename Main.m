@@ -1,13 +1,13 @@
-%% Run Simulink model 10 times and export 7 signals to 7 Excel files
+%% Run Simulink model 10 times and export signals to Excel files
 
 clear; clc;
 warning('off','all')
 
 % model = 'UniTire_0427_2021b_PID';
-% model = 'UniTire_0427_2021b_MPC';
-% model = 'UniTire_0427_2021b_SARL';
+model = 'UniTire_0427_2021b_MPC';
+% model = 'UniTire_0427_2021b_SAC';
 % model = 'UniTire_0427_2021b_MAC';
-model = 'UniTire_0427_2021b_ET';
+% model = 'UniTire_0427_2021b_ET';
 % model = 'UniTire_0427_2021b_DET';
 % model = 'UniTire_0427_2021b_ADET';
 
@@ -20,18 +20,25 @@ sigNames = { ...
     'vx_real', ...
     'lateral_acc',...
     'Steering',...
-    'Triggering'};
+    'Brake_torque1'};
 
 outFiles = { ...
-    'lateral_error.xlsx', ...
-    'beta.xlsx', ...
-    'gamma.xlsx', ...
-    'vx_real.xlsx', ...
-    'lateral_acc.xlsx', ...
-    'Steering.xlsx', ...
-    'Triggering.xlsx'};
+    'Results_lateral_error.xlsx', ...
+    'Results_beta.xlsx', ...
+    'Results_gamma.xlsx', ...
+    'Results_vx_real.xlsx', ...
+    'Results_lateral_acc.xlsx', ...
+    'Results_Steering.xlsx',...
+    'Results_Brake_torque1.xlsx'};
 
 useFastRestart = false;  % If the model does not support it, you can change it to false
+
+% ====== NEW: create output folder named as model ======
+outDir = fullfile(pwd, model);   % Save to the folder with the same name as the model
+if ~exist(outDir, 'dir')
+    mkdir(outDir);
+end
+% ======================================================
 
 % Container: TT{s,r} is the timetable of the RTH simulation of this signal (the column name includes run and channel).
 TT = cell(numel(sigNames), nRuns);
@@ -81,7 +88,7 @@ if useFastRestart
     set_param(model,'FastRestart','off');
 end
 
-%% Export as 6 Excel files
+%% Export as Excel files (to outDir)
 for s = 1:numel(sigNames)
     ttMerged = TT{s,1};
     for r = 2:nRuns
@@ -94,10 +101,10 @@ for s = 1:numel(sigNames)
     outTab.Properties.VariableNames{1} = 'Time';
 
     outTab.time_s = time_s;
-    outTab.Time = []; 
+    outTab.Time = [];
     outTab = movevars(outTab, 'time_s', 'Before', 1);
 
-    fn = outFiles{s};
+    fn = fullfile(outDir, outFiles{s});   % ====== CHANGED: save into model folder ======
     writetable(outTab, fn);
     fprintf('Saved: %s\n', fn);
 end
@@ -169,5 +176,3 @@ function [t, Y] = localGetSignal_ToWorkspace(out, name)
         end
     end
 end
-
-
