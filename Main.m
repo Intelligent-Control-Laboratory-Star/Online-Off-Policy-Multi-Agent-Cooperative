@@ -5,7 +5,7 @@ warning('off','all')
 
 % model = 'UniTire_0427_2021b_PID';
 % model = 'UniTire_0427_2021b_MPC';
-% model = 'UniTire_0427_2021b_SAC';
+% model = 'UniTire_0427_2021b_SARL';
 % model = 'UniTire_0427_2021b_MAC';
 model = 'UniTire_0427_2021b_ET';
 % model = 'UniTire_0427_2021b_DET';
@@ -169,4 +169,5 @@ function [t, Y] = localGetSignal_ToWorkspace(out, name)
         end
     end
 end
+
 
